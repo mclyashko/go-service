@@ -8,6 +8,7 @@ import (
 	"github.com/mclyashko/go-service/internal/http"
 	"github.com/mclyashko/go-service/internal/http/handler/hello_world"
 	jokeHandler "github.com/mclyashko/go-service/internal/http/handler/joke"
+	"github.com/mclyashko/go-service/internal/http/handler/static"
 
 	jokeProvider "github.com/mclyashko/go-service/internal/provider/joke"
 )
@@ -18,8 +19,9 @@ type Container struct {
 
 	JokeProvider jokeProvider.JokeProvider
 
-	HelloHandler hello_world.Handler
-	JokeHandler  jokeHandler.Handler
+	HelloHandler  hello_world.Handler
+	JokeHandler   jokeHandler.Handler
+	StaticHandler static.Handler
 
 	Server *http.Server
 }
@@ -32,11 +34,13 @@ func NewContainer() *Container {
 
 	helloHandler := hello_world.New()
 	jokeHandler := jokeHandler.New(logger, jokeProvider)
+	staticHandler := static.New()
 
 	srv := http.NewServer(
 		cfg.Addr,
 		helloHandler,
 		jokeHandler,
+		staticHandler,
 	)
 
 	return &Container{
@@ -45,8 +49,9 @@ func NewContainer() *Container {
 
 		JokeProvider: jokeProvider,
 
-		HelloHandler: helloHandler,
-		JokeHandler:  jokeHandler,
+		HelloHandler:  helloHandler,
+		JokeHandler:   jokeHandler,
+		StaticHandler: staticHandler,
 
 		Server: srv,
 	}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hello & Joke</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    $(function(){
+      $('#btnHello').click(function(){
+        const name = $('#name').val();
+        $.get('http://localhost:8080/hello', { name: name }, function(data){
+          $('#hello').text(data);
+        });
+      });
+
+      $('#btnJoke').click(function(){
+        $.get('http://localhost:8080/joke', function(data){
+          $('#joke').text(JSON.stringify(data));
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <input id="name" placeholder="Enter your name">
+  <button id="btnHello">Hello</button>
+  <div id="hello"></div>
+
+  <button id="btnJoke">Random Joke</button>
+  <div id="joke"></div>
+</body>
+</html>
