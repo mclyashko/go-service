@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Book API
+  version: 1.0.0
+paths:
+  /authors:
+    get:
+      summary: Получить всех авторов
+      responses:
+        "200":
+          description: Список авторов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Author"
+    post:
+      summary: Добавить автора
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+      responses:
+        "201":
+          description: Автор создан
+  /authors/{id}:
+    get:
+      summary: Получить автора по ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Автор
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
